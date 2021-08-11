@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>listS</title>
+</head>
+<body>
+<h3>Student List</h3>
+<table th:border="2">
+    <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>AGE</th>
+        <th>SEX</th>
+    </tr>
+    <tr th:each="st : ${sList}">
+        <td id = "sid" th:text = "${st.id}"></td>
+        <td th:text = "${st.name}"></td>
+        <td th:text = "${st.age}"></td>
+        <td th:text = "${st.sex}"></td>
+        <td> <a th:href="@{/student/deleteById(id=${st.id})}"> DELETE</a></td>
+    </tr>
+
+</table>
+</body>
+</html>
