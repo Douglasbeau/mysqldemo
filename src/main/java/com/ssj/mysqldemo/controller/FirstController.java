@@ -41,4 +41,9 @@ public class FirstController {
         return "redirect:list";
     }
 
+    @PutMapping("/update")
+    public void update(@ModelAttribute Student student) {
+        studentService.updateStudent(student);
+    }
+
 }

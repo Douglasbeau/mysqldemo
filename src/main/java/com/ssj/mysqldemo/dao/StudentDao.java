@@ -42,4 +42,9 @@ public class StudentDao {
         Integer a = jdbcTemplate.update("delete from students where id =?", id);
         return a;
     }
+
+    public Integer updateStudent(Student student) {
+        return jdbcTemplate.update("update students set name = ?, age =?, sex = ? where id = ?",
+                student.getName(), student.getAge(), student.getSex(), student.getId());
+    }
 }

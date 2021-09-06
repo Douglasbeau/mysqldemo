@@ -25,6 +25,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Integer updateStudent(Student student) {
+        studentDao.updateStudent(student);
         return null;
     }
 
