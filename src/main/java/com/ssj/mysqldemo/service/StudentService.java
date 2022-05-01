@@ -10,4 +10,6 @@ public interface StudentService {
     Integer updateStudent(Student student);
     List<Student> queryStudent();
     Student queryStudentById(Integer id);
+
+    Student getOne(Integer id);
 }

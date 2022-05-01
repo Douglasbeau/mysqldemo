@@ -2,6 +2,7 @@ package com.ssj.mysqldemo.dao;
 
 import com.ssj.mysqldemo.model.Student;
 import com.ssj.mysqldemo.rowmapper.StudentRowMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.util.List;
 
+@Slf4j
 @Component
 public class StudentDao {
     @Autowired
@@ -28,8 +30,8 @@ public class StudentDao {
     }
 
     public Student queryStudentById(Integer id) {
-        BasicDataSource dataSource = (BasicDataSource)jdbcTemplate.getDataSource();
-        System.out.println(dataSource);
+//        BasicDataSource dataSource = (BasicDataSource)jdbcTemplate.getDataSource();
+//        log.info("datasource: {}", dataSource);
         return jdbcTemplate.queryForObject("select * from students where id = " + id, new StudentRowMapper());
     }
 

@@ -2,6 +2,7 @@ package com.ssj.mysqldemo.config;
 
 import com.ssj.mysqldemo.model.Hobby;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,6 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+@Slf4j
 @Configuration
 public class MyDataSourceConfiguration {
 //    First method - use @Resource
@@ -36,7 +38,7 @@ public class MyDataSourceConfiguration {
     @Primary
     @ConfigurationProperties("hikari.datasource")
     public DataSourceProperties firstProperties() {
-        System.out.println("datasource properties");
+        log.info("datasource properties");
         return new DataSourceProperties();
     }
     @Bean
@@ -70,10 +72,10 @@ public class MyDataSourceConfiguration {
     }
     @Bean
     @ConfigurationProperties("dbcp2.datasource.advance")
-    public BasicDataSource basicDataSource(DataSourceProperties secondProperties) {
+    // We must use @Qualifier since injection by TYPE take priority because of @Primary on DataSourceProperties
+    public BasicDataSource basicDataSource(@Qualifier("secondProperties") DataSourceProperties secondProperties) {
         BasicDataSource ds = secondProperties.initializeDataSourceBuilder().type(BasicDataSource.class).build();
-        System.out.println(ds.getMaxIdle());
-        System.out.println(ds.getMaxConnLifetimeMillis());
+        log.info("idle: {}, life time: {}, pswd:{}", ds.getMaxIdle(), ds.getMaxConnLifetimeMillis(), ds.getPassword());
         return ds;
     }
 //
