@@ -3,26 +3,20 @@ package com.ssj.mysqldemo;
 import com.ssj.mysqldemo.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.jms.core.JmsMessagingTemplate;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Session;
-import java.util.Enumeration;
 import java.util.HashMap;
 
+@EnableCaching
 @SpringBootApplication
 @EnableJdbcRepositories
 @Configuration
@@ -41,7 +35,7 @@ public class MysqldemoApplication  implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("start sending message");
+        log.info("Sending JMS message at startup");
         jmsMessagingTemplate.send("que", new Message<String>() {
             @Override
             public String getPayload() {

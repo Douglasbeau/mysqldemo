@@ -9,7 +9,6 @@ public interface StudentService {
     Integer deleteStudent(Integer id);
     Integer updateStudent(Student student);
     List<Student> queryStudent();
-    Student queryStudentById(Integer id);
-
     Student getOne(Integer id);
+
 }

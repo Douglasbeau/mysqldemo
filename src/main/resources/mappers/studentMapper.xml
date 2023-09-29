@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ssj.mysqldemo.mapper.StudentMapper">
+    <resultMap id="userRoleMap" type="com.ssj.mysqldemo.model.StudentDO">
+        <result column="name" property="name"/>
+        <collection property="roles" ofType="com.ssj.mysqldemo.model.Role">
+            <result column="role_name" property="name"/>
+        </collection>
+    </resultMap>
+    <select id="selectStudentRoleById" resultMap="userRoleMap">
+        select s.name, r.name as role_name from students s, student_role sr, role r
+        where sr.student_id=s.id and sr.role_id=r.id and s.id=#{id};
+    </select>
+    <select id="selectStudentRoleByName" resultMap="userRoleMap">
+        select s.name, r.name as role_name from students s, student_role sr, role r
+        where sr.student_id=s.id and sr.role_id=r.id and s.name=#{username};
+    </select>
+
     <select id="getOne" parameterType="java.lang.Integer" resultType="com.ssj.mysqldemo.model.Student">
         select * from students
         where id=#{id}
+        limit 1
+    </select>
+    <select id="getOneByName" parameterType="java.lang.String" resultType="com.ssj.mysqldemo.model.Student">
+        select * from students
+        where name=#{name}
         limit 1
     </select>
     <select id="listStudent" resultType="com.ssj.mysqldemo.model.Student">
@@ -18,4 +38,18 @@
          #{student.sex}
         )
     </insert>
+
+    <update id="updateStudent">
+        update students
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="age != null and age >= 0">age = #{age},</if>
+            <if test="sex != null">sex = #{sex},</if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from students where id=#{id}
+    </delete>
 </mapper>
